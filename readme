@@ -1,0 +1,36 @@
+Vamos a aplicar VMC.
+
+View == display
+Logic == control
+Controller == main;
+
+VM === Muestra en terminal el tablero, puntuación, las fichas.
+Logic === Lógica del juego.
+Controller === 
+
+
+View:: defición de tetriminoes
+    :: defición del tablero
+    :: defición de la tabla de puntuación
+
+Logic:: definición turno de un juego
+     :: calcular puntuación
+     :: rotar/mover/saltar - fichas
+     :: comprobar filas / eliminar filas / mover filas
+    
+Controller:: 
+
+loop
+
+definir datos
+{
+    
+Lógica
+    
+
+> evento de teclado
+
+
+Mostrar pantallas
+
+}
