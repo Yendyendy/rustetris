@@ -48,10 +48,6 @@ fn main() {
                 screen.flush().unwrap();
                 frame::write_alt_screen_msg(&mut screen, &tablero,  &ficha)
             },
-            // Some(Ok(c)) =>{
-            //     eprintln!("{c}");
-            //     frame::write_alt_screen_msg(&mut screen, &tablero,  &ficha)
-            // }
             _ => frame::write_alt_screen_msg(&mut screen, &tablero,  &ficha)
         }
 
