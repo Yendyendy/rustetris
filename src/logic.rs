@@ -81,3 +81,27 @@ pub fn check_limites_tablero(ficha: &Ficha) -> bool{
         return false;
     } 
 }
+
+pub fn poner_tetromino_en_tablero(ficha: &Ficha, tablero: &mut Tablero){
+    // let forma_geo = ficha.tipo as [[bool:3]: 3];
+    
+    let fx = ficha.x;
+    let fy = ficha.y;
+
+    for y in 0..=3 {
+        for x in 0..=3{
+            if let Tficha::O(arr) = ficha.tipo {
+                if arr[y][x] {
+                    tablero.get((fy-y) as usize, (fx-x) as usize);
+
+                }
+            }
+        }
+    }
+}
+
+/*
+Notas:
+Hay que diferenciar entre limites del tablero y colisiones con otras fichas
+
+*/
