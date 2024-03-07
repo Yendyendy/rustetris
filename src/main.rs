@@ -29,13 +29,27 @@ fn main() {
             Some(Ok(b'q'))=> break,
             Some(Ok(b'a')) => {
                 ficha.x -=1; 
+                if !check_limites_tablero(&ficha){
+                    ficha.x +=1;  
+                }
 
                 screen.flush().unwrap();
                 write_alt_screen_msg(&mut screen, &tablero,  &ficha)
             },
             Some(Ok(b'd')) => {
                 ficha.x +=1; 
-
+                if !check_limites_tablero(&ficha){
+                    ficha.x -=1;  
+                }
+                screen.flush().unwrap();
+                write_alt_screen_msg(&mut screen, &tablero,  &ficha)
+            },
+            Some(Ok(b's')) => {
+                ficha.y +=1;
+                if !check_limites_tablero(&ficha){
+                    ficha.y -=1;  
+                }
+                
                 screen.flush().unwrap();
                 write_alt_screen_msg(&mut screen, &tablero,  &ficha)
             },
@@ -44,6 +58,10 @@ fn main() {
 
         if Instant::now() - lastsec >= Duration::from_secs(1) {
             ficha.y +=1;
+            if !check_limites_tablero(&ficha){
+                ficha.y -=1;  
+            }
+
             lastsec = Instant::now();
             write_alt_screen_msg(&mut screen, &tablero,  &ficha)
         }

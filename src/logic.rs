@@ -18,15 +18,7 @@ pub fn write_alt_screen_msg<W: Write>(screen: &mut W, _tablero: &Tablero, ficha:
 
     for y in 0..20 {
         write!(screen, "|").unwrap();  
-        for x in 0..10 { 
-            //se para solo 
-            // if ficha.x == x && ficha.y == y{
-            //     write!(screen,"*").unwrap(); 
-            // }else{
-            //     write!(screen," ").unwrap();
-            // }  
-
-            //fn pintar(x, y, ficha);
+        for x in 0..10 {  
             pintar_ficha(x, y, ficha);
 
         }
@@ -37,28 +29,11 @@ pub fn write_alt_screen_msg<W: Write>(screen: &mut W, _tablero: &Tablero, ficha:
     write!(screen, "{}\n\r", &techo).unwrap();
 
     //acceleración en un futuro
-    std::thread::sleep(std::time::Duration::from_millis(250)); 
+    std::thread::sleep(std::time::Duration::from_millis(100)); 
     
 }
 
-fn pintar_ficha(x: usize, y:usize, ficha: &Ficha){
-    //(x, y)
-
-    // x=1, y=1; Ficha.x = 5, Ficha.y = 0
-    // x=5, y=1; Ficha.x = 5, Ficha.y = 0
-    // 0 0 0
-    // 0 1 1
-    // 0 1 1
-    //
-
-    // [(-1,-1), (-1, 0), ( 1,-1)],
-    // [(-1, 0), ( 0, 0), ( 1, 0)],
-    // [(-1, 1), (0 ,-1), ( 1, 1)]
-
-    // x=5, y=1;
-    //
-    //
-    //
+fn pintar_ficha(x: usize, y:usize, ficha: &Ficha){ 
 
     let fx:usize = ficha.x;
     let fy:usize = ficha.y;
@@ -77,7 +52,7 @@ fn pintar_ficha(x: usize, y:usize, ficha: &Ficha){
 
         if let Tficha::O(arr) = ficha.tipo
         {
-            if arr[x][y]
+            if arr[y][x]
             {
                 print!("*"); 
             }
@@ -93,3 +68,16 @@ fn pintar_ficha(x: usize, y:usize, ficha: &Ficha){
     }
 
 } 
+
+//Comprueba que una ficha se pueda mover en esa dirección
+pub fn check_limites_tablero(ficha: &Ficha) -> bool{
+
+    let fx = ficha.x as i32;
+    let fy = ficha.y as i32;
+
+    if (fx-1 >= 0) && (fx < 10) && (fy < 20){
+        return true;
+    }else{
+        return false;
+    } 
+}
