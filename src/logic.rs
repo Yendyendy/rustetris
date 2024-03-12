@@ -86,18 +86,19 @@ pub fn check_limites_tablero(ficha: &Ficha) -> bool{
 pub fn poner_tetromino_en_tablero(ficha: &Ficha, tablero: &mut Tablero){
     // let forma_geo = ficha.tipo as [[bool:3]: 3];
     
-    let fx = ficha.x;
-    let fy = ficha.y;
+    let fx = ficha.x as isize;
+    let fy = ficha.y as isize;
 
     for y in 0..3 {
         for x in 0..3{
             if let Tficha::O(arr) = ficha.tipo {
                 if arr[y][x] {
-                    if (fy-y+1) as isize > 0 &&  (fx-x+1) as isize >0 {
-                        tablero.set((fy-y+1) as usize, (fx-x+1) as usize, 1);
-                        
-                    }
+                    let row :isize = fy -(y as isize) + 1;
+                    let col :isize = fx - (x as isize ) + 1;
 
+                    if  row >= 0 &&  col >=0 {
+                        tablero.set(row as usize, col as usize, 1);
+                    }
                 }
             }
         }
