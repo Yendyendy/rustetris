@@ -1,0 +1,6 @@
+   Compiling rustetris v0.1.0 (/home/can/Desktop/rustetis)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.41s
+     Running `target/debug/rustetris`
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>thread 'main' panicked at src/logic.rs:96:51:
+attempt to subtract with overflow
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

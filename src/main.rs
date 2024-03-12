@@ -14,7 +14,7 @@ fn main() {
     let mut screen = stdout().into_raw_mode().unwrap().into_alternate_screen().unwrap();
 
     write!(screen, "{}", termion::cursor::Hide).unwrap();
-    let tablero = Tablero::new();
+    let mut tablero = Tablero::new();
     let mut ficha = Ficha::new(); 
 
     write_alt_screen_msg(&mut screen, &tablero,  &ficha);
@@ -24,7 +24,7 @@ fn main() {
     let mut b = async_stdin().bytes();
     let mut lastsec = Instant::now();
     loop {
-
+        eprint!(">");
         match b.next() {
             Some(Ok(b'q'))=> break,
             Some(Ok(b'a')) => {
@@ -49,7 +49,7 @@ fn main() {
                 if !check_limites_tablero(&ficha){
                     ficha.y -=1;  
                 }
-                
+
                 screen.flush().unwrap();
                 write_alt_screen_msg(&mut screen, &tablero,  &ficha)
             },
@@ -59,7 +59,12 @@ fn main() {
         if Instant::now() - lastsec >= Duration::from_secs(1) {
             ficha.y +=1;
             if !check_limites_tablero(&ficha){
+                //si entras aqui quiere decir que has llegado al suelo
                 ficha.y -=1;  
+                poner_tetromino_en_tablero(&ficha, &mut tablero);
+                
+                //resetamos ficha
+                ficha = Ficha::new();
             }
 
             lastsec = Instant::now();

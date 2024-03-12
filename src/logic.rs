@@ -19,8 +19,15 @@ pub fn write_alt_screen_msg<W: Write>(screen: &mut W, _tablero: &Tablero, ficha:
     for y in 0..20 {
         write!(screen, "|").unwrap();  
         for x in 0..10 {  
-            pintar_ficha(x, y, ficha);
-
+            let pintado = pintar_ficha(x, y, ficha);
+            if !pintado{
+                if _tablero.get(y,x) == 1 {
+                    print!("*");  
+                }else{
+                    print!(" ");  
+    
+                }
+            }
         }
         write!(screen, "|\n\r").unwrap(); 
 
@@ -33,7 +40,7 @@ pub fn write_alt_screen_msg<W: Write>(screen: &mut W, _tablero: &Tablero, ficha:
     
 }
 
-fn pintar_ficha(x: usize, y:usize, ficha: &Ficha){ 
+fn pintar_ficha(x: usize, y:usize, ficha: &Ficha)->bool{ 
 
     let fx:usize = ficha.x;
     let fy:usize = ficha.y;
@@ -55,17 +62,11 @@ fn pintar_ficha(x: usize, y:usize, ficha: &Ficha){
             if arr[y][x]
             {
                 print!("*"); 
-            }
-            else
-            {
-                print!(" "); 
-            }
+                return true
+            } 
         }
     }
-    else
-    {
-        print!(" "); 
-    }
+    return false
 
 } 
 
@@ -88,11 +89,14 @@ pub fn poner_tetromino_en_tablero(ficha: &Ficha, tablero: &mut Tablero){
     let fx = ficha.x;
     let fy = ficha.y;
 
-    for y in 0..=3 {
-        for x in 0..=3{
+    for y in 0..3 {
+        for x in 0..3{
             if let Tficha::O(arr) = ficha.tipo {
                 if arr[y][x] {
-                    tablero.get((fy-y) as usize, (fx-x) as usize);
+                    if (fy-y+1) as isize > 0 &&  (fx-x+1) as isize >0 {
+                        tablero.set((fy-y+1) as usize, (fx-x+1) as usize, 1);
+                        
+                    }
 
                 }
             }

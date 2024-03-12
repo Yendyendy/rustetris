@@ -57,21 +57,7 @@ impl Tficha{
                  [false, true, true],
                  [false, true, true]])
     }
-    pub fn get (&self, row: usize, col: usize) -> i8{
-        let Tficha::O(arr) self::Ficha;
-    }
-    
-    pub fn set (&mut self, row: usize, col: usize, val: i8) {
-        self.[row][col] = val;
-    } 
 }
-
-impl Tficha {
-    // pub fn get(&self, row: usize, col: usize) -> Option<i8> {
-    //     Some(*self.rows.get(row)?.get(col)?)
-    // }
-
-} 
 
 // // //rataui
 // // //wgpu
