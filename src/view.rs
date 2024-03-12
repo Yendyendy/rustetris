@@ -24,6 +24,20 @@
 // [(-1,-1), (-1, 0), ( 1,-1)],
 // [(-1, 0), ( 0, 0), ( 1, 0)],
 // [(-1, 1), (0 ,-1), ( 1, 1)]
+use rand::Rng;
+
+static O: [[bool; 3]; 3] = [[false, false, false],
+                            [false, true, true],
+                            [false, true, true]];
+
+static Z: [[bool; 3]; 3] = [[false, false, false],
+                            [true, true, false],
+                            [false, true, true]];
+
+static S: [[bool; 3]; 3] = [[false, false, false],
+                            [false, true, true],
+                            [true, true, false]];
+
 
 pub struct Ficha {
     pub x: usize,
@@ -36,28 +50,48 @@ impl Ficha{
         Ficha{
             x: 5, 
             y: 0,
-            tipo: Tficha::new_o()
+            tipo: Tficha::new_rand()
         }
-    }
+    } 
 }
 
 pub enum Tficha  {
-    O([[bool; 3]; 3]),
-    I([[bool; 3]; 3]),
-    S([[bool; 3]; 3]),
-    Z([[bool; 3]; 3]),
-    T([[bool; 3]; 3]),
-    J([[bool; 3]; 3]),
-    L([[bool; 3]; 3])
+    O,
+    I,
+    S,
+    Z,
+    T,
+    J,
+    L
 }
 
 impl Tficha{
     pub fn new_o () -> Tficha{
-        Self::O([[false, false, false],
-                 [false, true, true],
-                 [false, true, true]])
+        Tficha::O
+    } 
+
+    pub fn get_forma (&self) -> &'static [[bool; 3];3]{
+        match self {
+            Self::O => &O,
+            Self::S => &S,
+            Self::Z => &Z,
+            _ => &O
+        }
+    }
+
+    pub fn new_rand() -> Tficha {
+        // match rng.gen_range(0, 3) { // rand 0.5, 0.6, 0.7
+        let rnd = rand::thread_rng().gen_range(0..=2);
+        match rnd { // rand 0.8
+            0 => Tficha::O,
+            1 => Tficha::S,
+            _ => Tficha::Z,
+        }
     }
 }
+
+
+
 
 // // //rataui
 // // //wgpu

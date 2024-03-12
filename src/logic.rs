@@ -56,15 +56,14 @@ fn pintar_ficha(x: usize, y:usize, ficha: &Ficha)->bool{
     { 
         let x:usize = fx+1-x;
         let y:usize = fy+1-y;
-
-        if let Tficha::O(arr) = ficha.tipo
+        let arr = ficha.tipo.get_forma();
+ 
+        if arr[y][x]
         {
-            if arr[y][x]
-            {
-                print!("*"); 
-                return true
-            } 
-        }
+            print!("*"); 
+            return true
+        }  
+
     }
     return false
 
@@ -88,19 +87,18 @@ pub fn poner_tetromino_en_tablero(ficha: &Ficha, tablero: &mut Tablero){
     
     let fx = ficha.x as isize;
     let fy = ficha.y as isize;
+    let arr = ficha.tipo.get_forma();
 
     for y in 0..3 {
-        for x in 0..3{
-            if let Tficha::O(arr) = ficha.tipo {
-                if arr[y][x] {
-                    let row :isize = fy -(y as isize) + 1;
-                    let col :isize = fx - (x as isize ) + 1;
+        for x in 0..3{ 
+            if arr[y][x] {
+                let row :isize = fy -(y as isize) + 1;
+                let col :isize = fx - (x as isize ) + 1;
 
-                    if  row >= 0 &&  col >=0 {
-                        tablero.set(row as usize, col as usize, 1);
-                    }
+                if  row >= 0 &&  col >=0 {
+                    tablero.set(row as usize, col as usize, 1);
                 }
-            }
+            } 
         }
     }
 }
