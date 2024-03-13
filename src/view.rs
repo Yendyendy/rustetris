@@ -50,7 +50,7 @@ impl Ficha{
         Ficha{
             x: 5, 
             y: 0,
-            tipo: Tficha::new_rand()
+            tipo: Tficha::new_o()
         }
     } 
 }
@@ -68,6 +68,10 @@ pub enum Tficha  {
 impl Tficha{
     pub fn new_o () -> Tficha{
         Tficha::O
+    } 
+
+    pub fn new_s () -> Tficha{
+        Tficha::S
     } 
 
     pub fn get_forma (&self) -> &'static [[bool; 3];3]{

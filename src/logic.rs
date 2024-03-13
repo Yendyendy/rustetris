@@ -69,17 +69,36 @@ fn pintar_ficha(x: usize, y:usize, ficha: &Ficha)->bool{
 
 } 
 
+//ver si la ficha puede descender: dentro de las dimensiones del tablero && posición libre 
 //Comprueba que una ficha se pueda mover en esa dirección
-pub fn check_limites_tablero(ficha: &Ficha) -> bool{
+pub fn se_puede_poner(ficha: &Ficha,tablero: & Tablero) -> bool{
 
     let fx = ficha.x as i32;
-    let fy = ficha.y as i32;
+    let fy = ficha.y as i32; 
+
+    let arr = ficha.tipo.get_forma();
+
+    let mut en_rango: bool = false;
+    let mut posiciones_libres: bool = true;
 
     if (fx-1 >= 0) && (fx < 10) && (fy < 20){
-        return true;
-    }else{
-        return false;
-    } 
+        en_rango = true;
+    }
+
+    'outer:for y in 0..3 {
+        for x in 0..3{ 
+            let row :isize = (fy as isize) -(y as isize) + 1;
+            let col :isize = (fx as isize) - (x as isize ) + 1;
+            if arr[y][x] && row >= 0 && row < 20 &&  col >=0 && col < 10{ 
+                if tablero.get(row as usize, col as usize) > 0 {
+                    posiciones_libres = false;
+                    break 'outer;
+                }
+            } 
+        }
+    }
+
+    return en_rango && posiciones_libres;
 }
 
 pub fn poner_tetromino_en_tablero(ficha: &Ficha, tablero: &mut Tablero){
@@ -95,11 +114,54 @@ pub fn poner_tetromino_en_tablero(ficha: &Ficha, tablero: &mut Tablero){
                 let row :isize = fy -(y as isize) + 1;
                 let col :isize = fx - (x as isize ) + 1;
 
-                if  row >= 0 &&  col >=0 {
+                if  row >= 0 && row < 20 &&  col >=0 && col < 10 {
                     tablero.set(row as usize, col as usize, 1);
                 }
             } 
         }
+    }
+}
+
+//ideas a futuro: tabla como matriz de bits
+pub fn validar_filas(pos: usize, tablero: &mut Tablero){
+    eprint!("validar_filas1\n");
+
+    let rango_sup = pos-1 ;
+    let rango_inf = if pos+1 > 20 {pos+1} else {pos};
+    
+    let mut eliminar : bool = true;
+    let y = rango_inf;
+    for y in rango_sup ..= rango_inf{
+        eprint!("y{}\n", y);
+
+        for x in 0..10{
+            if tablero.get(y, x) == 0{
+                eliminar = false;
+                break;
+            }
+        } 
+
+        if eliminar {
+            eprint!("validar_filas2 {}\n", eliminar);
+
+            eliminar_fila(y, tablero);
+        }
+    }
+}
+
+fn eliminar_fila(fila: usize, tablero: &mut Tablero){
+    eprint!("eliminar_fila {}\n", fila);
+
+    if fila == 0 {
+        for x in 0..10{ 
+            tablero.set(fila, x, 0);
+        }  
+    }else{
+        for x in 0..10{ 
+            tablero.set(fila, x, tablero.get(fila-1, x));
+        }  
+        eliminar_fila(fila-1, tablero);
+
     }
 }
 
