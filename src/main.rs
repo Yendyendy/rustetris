@@ -15,7 +15,7 @@ fn main() {
 
     write!(screen, "{}", termion::cursor::Hide).unwrap();
     let mut tablero = Tablero::new();
-    let mut ficha = Ficha::new(); 
+    let mut ficha = TetrominoGame::new(); 
 
     write_alt_screen_msg(&mut screen, &tablero,  &ficha);
 
@@ -85,7 +85,7 @@ fn main() {
                 validar_filas(ficha.y, &mut tablero);
                 
                 //resetamos ficha
-                ficha = Ficha::new();
+                ficha = TetrominoGame::new();
             }
 
 

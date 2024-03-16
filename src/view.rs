@@ -1,29 +1,3 @@
-// --------------------
-
-// |                   | 
-// |                   | 
-// |                   | 
-// |                   | 
-// |                   | 
-// |                   | 
-// |                   | 
-// |                   | 
-// |                   | 
-// |                   | 
-// |                   | 
-// |                   | 
-// |                   | 
-// |                   | 
-// |                   | 
-// |                   | 
-// |                   | 
-// |                   | 
-// |                   |  
-// --------------------
-
-// [(-1,-1), (-1, 0), ( 1,-1)],
-// [(-1, 0), ( 0, 0), ( 1, 0)],
-// [(-1, 1), (0 ,-1), ( 1, 1)]
 use rand::Rng;
 
 static O: [[bool; 3]; 3] = [[false, false, false],
@@ -39,23 +13,53 @@ static S: [[bool; 3]; 3] = [[false, false, false],
                             [true, true, false]];
 
 
-pub struct Ficha {
+pub struct TetrominoGame {
     pub x: usize,
     pub y: usize,
-    pub tipo : Tficha,
+    pub tipo : Tetromino,
 }
 
-impl Ficha{
-    pub fn new () -> Ficha{
-        Ficha{
+impl TetrominoGame{
+    pub fn new () -> TetrominoGame{
+        TetrominoGame{
             x: 5, 
             y: 0,
-            tipo: Tficha::new_o()
+            tipo: Tetromino::new_o()
         }
     } 
 }
 
-pub enum Tficha  {
+struct Tetromino{
+    rotacion: usize,
+    tipo : TetrominoShape
+}
+
+//TODO: crear pool
+
+impl Tetromino{
+    pub fn new() -> Tetromino{
+        Tetromino{
+            rotacion: 0,
+            tipo: TetrominoShape::O
+        }
+    }
+
+    //sentido del reloj
+    pub fn rotar(&self) -> &'static [[bool;3];3]{
+        let rotacion = (self.rotacion +1)%4;
+        self.get()
+    }
+
+    //devuelve tetromino
+    pub fn get(&self) -> &'static [[bool;3];3]{
+        match self.tipo {
+            TetrominoShape::O => {&O}
+            _ => {&S}
+        }
+    }
+}
+
+pub enum TetrominoShape  {
     O,
     I,
     S,
@@ -65,34 +69,34 @@ pub enum Tficha  {
     L
 }
 
-impl Tficha{
-    pub fn new_o () -> Tficha{
-        Tficha::O
-    } 
+// impl TetrominoShape{
+//     pub fn new_o () -> TetrominoShape{
+//         TetrominoShape::O
+//     } 
 
-    pub fn new_s () -> Tficha{
-        Tficha::S
-    } 
+//     pub fn new_s () -> TetrominoShape{
+//         TetrominoShape::S
+//     } 
 
-    pub fn get_forma (&self) -> &'static [[bool; 3];3]{
-        match self {
-            Self::O => &O,
-            Self::S => &S,
-            Self::Z => &Z,
-            _ => &O
-        }
-    }
+//     pub fn get_forma (&self) -> &'static [[bool; 3];3]{
+//         match self {
+//             Self::O => &O,
+//             Self::S => &S,
+//             Self::Z => &Z,
+//             _ => &O
+//         }
+//     }
 
-    pub fn new_rand() -> Tficha {
-        // match rng.gen_range(0, 3) { // rand 0.5, 0.6, 0.7
-        let rnd = rand::thread_rng().gen_range(0..=2);
-        match rnd { // rand 0.8
-            0 => Tficha::O,
-            1 => Tficha::S,
-            _ => Tficha::Z,
-        }
-    }
-}
+//     pub fn new_rand() -> TetrominoShape {
+//         // match rng.gen_range(0, 3) { // rand 0.5, 0.6, 0.7
+//         let rnd = rand::thread_rng().gen_range(0..=2);
+//         match rnd { // rand 0.8
+//             0 => TetrominoShape::O,
+//             1 => TetrominoShape::S,
+//             _ => TetrominoShape::Z,
+//         }
+//     }
+// }
 
 
 
