@@ -11,20 +11,27 @@ pub mod view;
 
 
 fn main() { 
-    let mut screen = stdout().into_raw_mode().unwrap().into_alternate_screen().unwrap();
 
+    //crear pantalla
+    let mut screen = stdout().into_raw_mode().unwrap().into_alternate_screen().unwrap();
     write!(screen, "{}", termion::cursor::Hide).unwrap();
+
+    //crear tablero
     let mut tablero = Tablero::new();
+    //crear ficha
     let mut ficha = TetrominoGame::new(); 
 
+    //pintar en pantalla
     write_alt_screen_msg(&mut screen, &tablero,  &ficha);
-
     screen.flush().unwrap(); 
-
+    let i = 0;
     let mut b = async_stdin().bytes();
     let mut lastsec = Instant::now();
+
     loop {
         eprint!(">");
+
+        //valorar input
         match b.next() {
             Some(Ok(b'q'))=> break,
             Some(Ok(b'a')) => {
@@ -33,6 +40,11 @@ fn main() {
                     ficha.x +=1;  
                 }
 
+                screen.flush().unwrap();
+                write_alt_screen_msg(&mut screen, &tablero,  &ficha)
+            },
+            Some(Ok(b'w')) => { 
+                ficha.tipo.rotar();
                 screen.flush().unwrap();
                 write_alt_screen_msg(&mut screen, &tablero,  &ficha)
             },
@@ -85,7 +97,7 @@ fn main() {
                 validar_filas(ficha.y, &mut tablero);
                 
                 //resetamos ficha
-                ficha = TetrominoGame::new();
+                ficha.next();
             }
 
 

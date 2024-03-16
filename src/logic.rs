@@ -1,9 +1,8 @@
 use std::io::Write; 
   
-use crate::view::{Tablero, Ficha};
-use crate::Tficha;   
+use crate::view::{Tablero, TetrominoGame}; 
 
-pub fn write_alt_screen_msg<W: Write>(screen: &mut W, _tablero: &Tablero, ficha: &Ficha) {
+pub fn write_alt_screen_msg<W: Write>(screen: &mut W, _tablero: &Tablero, ficha: &TetrominoGame) {
 
     // write!(screen, "{}{}\n",  termion::clear::All,termion::cursor::Goto(1, 1)).unwrap();
     write!(screen, "{}{}\n",  termion::clear::All,termion::cursor::Goto(1, 1)).unwrap();
@@ -40,7 +39,7 @@ pub fn write_alt_screen_msg<W: Write>(screen: &mut W, _tablero: &Tablero, ficha:
     
 }
 
-fn pintar_ficha(x: usize, y:usize, ficha: &Ficha)->bool{ 
+fn pintar_ficha(x: usize, y:usize, ficha: &TetrominoGame)->bool{ 
 
     let fx:usize = ficha.x;
     let fy:usize = ficha.y;
@@ -56,7 +55,7 @@ fn pintar_ficha(x: usize, y:usize, ficha: &Ficha)->bool{
     { 
         let x:usize = fx+1-x;
         let y:usize = fy+1-y;
-        let arr = ficha.tipo.get_forma();
+        let arr = ficha.tipo.get();
  
         if arr[y][x]
         {
@@ -71,12 +70,12 @@ fn pintar_ficha(x: usize, y:usize, ficha: &Ficha)->bool{
 
 //ver si la ficha puede descender: dentro de las dimensiones del tablero && posición libre 
 //Comprueba que una ficha se pueda mover en esa dirección
-pub fn se_puede_poner(ficha: &Ficha,tablero: & Tablero) -> bool{
+pub fn se_puede_poner(ficha: &TetrominoGame,tablero: & Tablero) -> bool{
 
     let fx = ficha.x as i32;
     let fy = ficha.y as i32; 
 
-    let arr = ficha.tipo.get_forma();
+    let arr = ficha.tipo.get();
 
     let mut en_rango: bool = false;
     let mut posiciones_libres: bool = true;
@@ -101,12 +100,12 @@ pub fn se_puede_poner(ficha: &Ficha,tablero: & Tablero) -> bool{
     return en_rango && posiciones_libres;
 }
 
-pub fn poner_tetromino_en_tablero(ficha: &Ficha, tablero: &mut Tablero){
+pub fn poner_tetromino_en_tablero(ficha: &TetrominoGame, tablero: &mut Tablero){
     // let forma_geo = ficha.tipo as [[bool:3]: 3];
     
     let fx = ficha.x as isize;
     let fy = ficha.y as isize;
-    let arr = ficha.tipo.get_forma();
+    let arr = ficha.tipo.get();
 
     for y in 0..3 {
         for x in 0..3{ 
@@ -164,9 +163,3 @@ fn eliminar_fila(fila: usize, tablero: &mut Tablero){
 
     }
 }
-
-/*
-Notas:
-Hay que diferenciar entre limites del tablero y colisiones con otras fichas
-
-*/
