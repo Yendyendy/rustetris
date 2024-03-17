@@ -1,3 +1,11 @@
+Falla la lógica al rotar
+Falta lógica de ver si puede rotar o hay que desplazar
+Falla al eliminar filas
+Falla los límites del tablero pared derecha y suelo
+Diferenciar fichas
+
+
+
 Vamos a aplicar VMC.
 
 View == display
@@ -34,3 +42,6 @@ Lógica
 Mostrar pantallas
 
 }
+
+
+

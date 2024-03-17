@@ -19,12 +19,11 @@ fn main() {
     //crear tablero
     let mut tablero = Tablero::new();
     //crear ficha
-    let mut ficha = TetrominoGame::new(); 
+    let mut pool = TetrominoPool::new();  
 
     //pintar en pantalla
-    write_alt_screen_msg(&mut screen, &tablero,  &ficha);
+    write_alt_screen_msg(&mut screen, &tablero,  &pool.current());
     screen.flush().unwrap(); 
-    let i = 0;
     let mut b = async_stdin().bytes();
     let mut lastsec = Instant::now();
 
@@ -35,74 +34,75 @@ fn main() {
         match b.next() {
             Some(Ok(b'q'))=> break,
             Some(Ok(b'a')) => {
-                ficha.x -=1; 
-                if !se_puede_poner(&ficha, &tablero){
-                    ficha.x +=1;  
+                pool.current().sub_col();
+                if !se_puede_poner(&pool.current(), &tablero){
+                    pool.current().add_col();
+
                 }
 
                 screen.flush().unwrap();
-                write_alt_screen_msg(&mut screen, &tablero,  &ficha)
+                write_alt_screen_msg(&mut screen, &tablero,  &pool.current())
             },
             Some(Ok(b'w')) => { 
-                ficha.tipo.rotar();
+                pool.current().rotar();
                 screen.flush().unwrap();
-                write_alt_screen_msg(&mut screen, &tablero,  &ficha)
+                write_alt_screen_msg(&mut screen, &tablero,  &pool.current())
             },
             Some(Ok(b'd')) => {
-                ficha.x +=1; 
-                if !se_puede_poner(&ficha, &tablero){
-                    ficha.x -=1;  
+                pool.current().x +=1; 
+                if !se_puede_poner(&pool.current(), &tablero){
+                    pool.current().x -=1;  
                 }
                 screen.flush().unwrap();
-                write_alt_screen_msg(&mut screen, &tablero,  &ficha)
+                write_alt_screen_msg(&mut screen, &tablero,  &pool.current())
             },
             Some(Ok(b's')) => {
-                ficha.y +=1;
-                if !se_puede_poner(&ficha, &tablero){
-                    ficha.y -=1;  
+                pool.current().y +=1;
+                if !se_puede_poner(&pool.current(), &tablero){
+                    pool.current().y -=1;  
                 }
 
                 screen.flush().unwrap();
-                write_alt_screen_msg(&mut screen, &tablero,  &ficha)
+                write_alt_screen_msg(&mut screen, &tablero,  &pool.current())
             },
             Some(Ok(b'e')) => {
-                ficha.y =19;
+                pool.current().y =19;
 
-                //girar ficha
-                write_alt_screen_msg(&mut screen, &tablero,  &ficha)
+                //girar pool.current()
+                write_alt_screen_msg(&mut screen, &tablero,  &pool.current())
             },
             Some(Ok(b'w')) => {
-                //girar ficha
-                write_alt_screen_msg(&mut screen, &tablero,  &ficha)
+                //girar pool.current()
+                write_alt_screen_msg(&mut screen, &tablero,  &pool.current())
             },
-            _ => write_alt_screen_msg(&mut screen, &tablero,  &ficha)
+            _ => write_alt_screen_msg(&mut screen, &tablero,  &pool.current())
         }
 
         if Instant::now() - lastsec >= Duration::from_secs(1) {
 
-            //ver si la ficha puede descender: dentro de las dimensiones del tablero && posición libre
+            //ver si la pool.current() puede descender: dentro de las dimensiones del tablero && posición libre
             //puede descender desciende y ya
-            ficha.y +=1;
-            if se_puede_poner(&ficha, &tablero){ 
-                // poner_tetromino_en_tablero(&ficha, &tablero); 
+            pool.current().y +=1;
+            if se_puede_poner(&pool.current(), &tablero){ 
+                // poner_tetromino_en_tablero(&pool.current(), &tablero); 
             }
             //no pude descender
             //colocar tetrominó en el tablero
-            //generar nueva ficha 
+            //generar nueva pool.current() 
             else{
-                ficha.y -=1;
+                pool.current().y -=1;
 
                 //si entras aqui quiere decir que has llegado al suelo
-                poner_tetromino_en_tablero(&ficha, &mut tablero);
-                validar_filas(ficha.y, &mut tablero);
+                poner_tetromino_en_tablero(&pool.current(), &mut tablero);
+                validar_filas(pool.current().y, &mut tablero);
                 
                 //resetamos ficha
-                ficha.next();
+                pool.next();
             }
 
 
             lastsec = Instant::now();
-            write_alt_screen_msg(&mut screen, &tablero,  &ficha)
+            write_alt_screen_msg(&mut screen, &tablero,  &pool.current())
         }
  
     }

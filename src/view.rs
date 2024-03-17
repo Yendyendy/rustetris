@@ -125,47 +125,132 @@ static I_3: [[bool; 3]; 3] = [[false, false, false],
                             
 static I_ARR: [[[bool; 3]; 3]; 4] = [I_0, I_1, I_2, I_3];
 
+pub struct TetrominoPool{
+    pool: [TetrominoGame; 7],
+    actual: usize
+}
 
+impl TetrominoPool{
+
+    pub fn next (&mut self){
+        self.current().x = 5;
+        self.current().y = 0;
+        self.actual = (self.actual +1 )%7;
+    } 
+    pub fn current (&mut self) -> &mut TetrominoGame{ 
+        &mut self.pool[self.actual]
+    } 
+
+    //TODO: crear pool
+    //como crear el pool,
+    pub fn new () -> TetrominoPool{
+        TetrominoPool{
+            actual : 0,
+            pool : TetrominoPool::pool()
+        }
+    }
+
+    pub fn pool () -> [TetrominoGame; 7] {
+        [TetrominoGame::new_tetromino(TetrominoShape::O),
+        TetrominoGame::new_tetromino(TetrominoShape::I),
+        TetrominoGame::new_tetromino(TetrominoShape::S),
+        TetrominoGame::new_tetromino(TetrominoShape::Z),
+        TetrominoGame::new_tetromino(TetrominoShape::T),
+        TetrominoGame::new_tetromino(TetrominoShape::J),
+        TetrominoGame::new_tetromino(TetrominoShape::L)]
+    }
+}
 pub struct TetrominoGame {
     pub x: usize,
     pub y: usize,
-    actual: usize,
-    pub tipo : [TetrominoShape; 7],
+    pub actual: usize,
+    pub tipo : Tetromino,
 }
 
 impl TetrominoGame{
-    pub fn new () -> TetrominoGame{
+    fn new_tetromino(shape: TetrominoShape) -> TetrominoGame{
         TetrominoGame{
             x: 5, 
             y: 0,
             actual: 0,
-            tipo: Tetromino::new()
+            tipo: Tetromino::new(shape)
         }
-    } 
-
-    pub fn next (&mut self) {
-        self.actual = (self.actual +1 )%7;
     }
+
+    pub fn add_col(&mut self){
+        self.x +=1;
+    }
+
+    pub fn sub_col(&mut self){
+        self.x -=1; 
+    }
+
+    pub fn add_row(&mut self){
+        self.y +=1;
+    }
+
+    pub fn sub_row(&mut self){
+        self.y -=1;
+    }   
+
+    pub fn rotar(&mut self){
+        self.tipo.rotar()
+    }  
+
+
 }
 
 pub struct Tetromino{
     rotacion: usize,
-    tipo : [TetrominoShape; 7]
+    tipo : TetrominoShape
 }
 
-//TODO: crear pool
 
 impl Tetromino{
-    pub fn new() -> Tetromino{
-        Tetromino{
-            rotacion: 0,
-            tipo: [TetrominoShape::O,
-            TetrominoShape::I,
-            TetrominoShape::S,
-            TetrominoShape::Z,
-            TetrominoShape::T,
-            TetrominoShape::J,
-            TetrominoShape::L]
+    pub fn new(shape: TetrominoShape) -> Tetromino{
+        match shape{
+            TetrominoShape::O => {
+                Tetromino{
+                    rotacion: 0,
+                    tipo : TetrominoShape::O
+                }
+            }
+            TetrominoShape::I => {
+                Tetromino{
+                    rotacion: 0,
+                    tipo : TetrominoShape::I
+                }
+            }
+            TetrominoShape::S => {
+                Tetromino{
+                    rotacion: 0,
+                    tipo : TetrominoShape::S
+                }
+            }
+            TetrominoShape::Z => {
+                Tetromino{
+                    rotacion: 0,
+                    tipo : TetrominoShape::Z
+                }
+            }
+            TetrominoShape::T => {
+                Tetromino{
+                    rotacion: 0,
+                    tipo : TetrominoShape::T
+                }
+            }
+            TetrominoShape::J => {
+                Tetromino{
+                    rotacion: 0,
+                    tipo : TetrominoShape::J
+                }
+            }
+            TetrominoShape::L => {
+                Tetromino{
+                    rotacion: 0,
+                    tipo : TetrominoShape::L
+                }
+            } 
         }
     }
 
@@ -176,27 +261,27 @@ impl Tetromino{
 
     //devuelve tetromino
     pub fn get(&self) -> &'static [[bool;3];3]{
-        match self.tipo[] {
+        match self.tipo {
             TetrominoShape::O => {
                 &O_ARR[self.rotacion]
             }
             TetrominoShape::I => {
-                &O_ARR[self.rotacion]
+                &I_ARR[self.rotacion]
             }
             TetrominoShape::S => {
-                &O_ARR[self.rotacion]
+                &S_ARR[self.rotacion]
             }
             TetrominoShape::Z => {
-                &O_ARR[self.rotacion]
+                &Z_ARR[self.rotacion]
             }
             TetrominoShape::T => {
-                &O_ARR[self.rotacion]
+                &T_ARR[self.rotacion]
             }
             TetrominoShape::J => {
-                &O_ARR[self.rotacion]
+                &J_ARR[self.rotacion]
             }
             TetrominoShape::L => {
-                &O_ARR[self.rotacion]
+                &L_ARR[self.rotacion]
             } 
         }
     }
