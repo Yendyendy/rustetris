@@ -129,7 +129,7 @@ pub fn validar_filas(pos: usize, tablero: &mut Tablero){
     let rango_inf = if pos+1 > 20 {pos+1} else {pos};
     
     let mut eliminar : bool = true;
-    let y = rango_inf;
+    
     for y in rango_sup ..= rango_inf{
         eprint!("y{}\n", y);
 

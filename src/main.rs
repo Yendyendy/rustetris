@@ -70,11 +70,7 @@ fn main() {
 
                 //girar pool.current()
                 write_alt_screen_msg(&mut screen, &tablero,  &pool.current())
-            },
-            Some(Ok(b'w')) => {
-                //girar pool.current()
-                write_alt_screen_msg(&mut screen, &tablero,  &pool.current())
-            },
+            }, 
             _ => write_alt_screen_msg(&mut screen, &tablero,  &pool.current())
         }
 

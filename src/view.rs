@@ -1,5 +1,3 @@
-use rand::Rng;
-
 static O_0: [[bool; 3]; 3] = [[false, false, false],
                             [false, true, true],
                             [false, true, true]];
