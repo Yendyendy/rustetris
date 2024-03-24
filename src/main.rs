@@ -9,7 +9,6 @@ use crate::logic::*;
 pub mod logic; 
 pub mod view;
 
-
 fn main() { 
 
     //crear pantalla
@@ -28,23 +27,20 @@ fn main() {
     let mut lastsec = Instant::now();
 
     loop {
-        eprint!(">");
-
         //valorar input
         match b.next() {
             Some(Ok(b'q'))=> break,
             Some(Ok(b'a')) => {
-                pool.current().sub_col();
+                pool.current().sub_col();  
                 if !se_puede_poner(&pool.current(), &tablero){
                     pool.current().add_col();
-
                 }
-
                 screen.flush().unwrap();
                 write_alt_screen_msg(&mut screen, &tablero,  &pool.current())
             },
             Some(Ok(b'w')) => { 
                 pool.current().rotar();
+                repeler(&mut pool.current(), &tablero);
                 screen.flush().unwrap();
                 write_alt_screen_msg(&mut screen, &tablero,  &pool.current())
             },
@@ -75,6 +71,8 @@ fn main() {
         }
 
         if Instant::now() - lastsec >= Duration::from_secs(1) {
+            let b = se_puede_poner(&pool.current(), &tablero);
+            eprint!("<<<<<<>{b}\n");
 
             //ver si la pool.current() puede descender: dentro de las dimensiones del tablero && posición libre
             //puede descender desciende y ya
@@ -86,6 +84,7 @@ fn main() {
             //colocar tetrominó en el tablero
             //generar nueva pool.current() 
             else{
+                eprint!(">>Eliminar fila\n");
                 pool.current().y -=1;
 
                 //si entras aqui quiere decir que has llegado al suelo
@@ -95,7 +94,6 @@ fn main() {
                 //resetamos ficha
                 pool.next();
             }
-
 
             lastsec = Instant::now();
             write_alt_screen_msg(&mut screen, &tablero,  &pool.current())
