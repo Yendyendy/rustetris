@@ -17,27 +17,15 @@ pub fn write_alt_screen_msg<W: Write>(screen: &mut W, _tablero: &Tablero, ficha:
     write!(screen, "{}\n\r", &techo).unwrap();  
 
     poner_tetromino_en_tablero(ficha, &mut tablero_aux);
-
-    //     write!(screen, "|").unwrap();  
-    //     for x in 0..10 {  
-              // let pintado = pintar_ficha(fila, columna, ficha);
-            // if !pintado{
-            //     if _tablero.get(fila,columna) == 1 {
-            //         print!("*");  
-            //     }else{
-            //         print!(" ");  
     
-            //     }
-            // }
-    //     }
-    //     write!(screen, "|\n\r").unwrap(); 
 
     for fila in tablero_aux.rows {
         write!(screen, "|").unwrap();  
 
         for casilla in fila{
-            if casilla == 1 {
-                print!("*");
+            if casilla != '0' {
+                print!("{}", casilla as char);
+                
             }else{
                 print!(" ");
             }
@@ -52,26 +40,6 @@ pub fn write_alt_screen_msg<W: Write>(screen: &mut W, _tablero: &Tablero, ficha:
     std::thread::sleep(std::time::Duration::from_millis(100)); 
     
 }
-
-fn pintar_ficha(ficha: &TetrominoGame, tablero: &Tablero){ 
-
-    // let fx = ficha.x as isize;
-    // let fy = ficha.y as isize;  
-    // let x = fx+1-x;
-    // let y = fy+1-y;
-    
-    // if x >= 0 && x <= 2 && y >= 0 && y <= 2 {
-    //     let arr = ficha.tipo.get();
-    //     if arr[y as usize][x as usize]
-    //     {
-    //         print!("*"); 
-    //         return true
-    //     }   
-    // }
- 
-    // return false
-
-} 
 
 fn usize_add(u: usize, i: isize) -> usize {
 
@@ -134,7 +102,7 @@ pub fn se_puede_poner(ficha: &TetrominoGame, tablero: & Tablero) -> bool{
                     break 'outer1;
                 }
                 //comprobar si nueva posición libre
-                else if tablero.get(val_y as usize, val_x as usize) == 1{
+                else if tablero.get(val_y as usize, val_x as usize) != '0'{
                     posiciones_libres = false;
                     break 'outer1;
                 }
@@ -152,21 +120,7 @@ pub fn poner_tetromino_en_tablero(ficha: &TetrominoGame, tablero: &mut Tablero){
     
     let fx = ficha.x as isize;
     let fy = ficha.y as isize;
-    // let arr = ficha.tipo.get();
-
-    // for y in 0..3 {
-    //     for x in 0..3{ 
-    //         if arr[y][x] == true {
-    //             let row :isize = fy + (y as isize) -1;
-    //             let col :isize = fx + (x as isize) -1;
-
-    //             if  row >= 0 && row < 20 &&  col >=0 && col < 10 {
-    //                 tablero.set(row as usize, col as usize, 1);
-    //             }
-    //         } 
-    //     }
-    // }
-
+    
     let mut y:isize = -1;
     for filas in ficha.tipo.get(){
         let mut x:isize = -1;
@@ -175,7 +129,7 @@ pub fn poner_tetromino_en_tablero(ficha: &TetrominoGame, tablero: &mut Tablero){
             let row :isize = fy + (y as isize);
             let col :isize = fx + (x as isize);
             if *casilla && row >= 0 && row < 20 &&  col >=0 && col < 10{
-                tablero.set(row as usize, col as usize, 1);
+                tablero.set(row as usize, col as usize, ficha.get_tetromino_symbol());
             }
             x +=1 ;
         }
@@ -195,7 +149,7 @@ pub fn validar_filas(pos: usize, tablero: &mut Tablero){
         eprint!("y{}\n", y);
 
         for x in 0..10{
-            if tablero.get(y, x) == 0{
+            if tablero.get(y, x) == '0'{
                 eliminar = false;
                 break;
             }
@@ -212,7 +166,7 @@ fn eliminar_fila(fila: usize, tablero: &mut Tablero){
 
     if fila == 0 {
         for x in 0..10{ 
-            tablero.set(fila, x, 0);
+            tablero.set(fila, x, '0');
         }  
     }else{
         for x in 0..10{ 
@@ -267,30 +221,3 @@ pub fn repeler (ficha: &mut TetrominoGame, tablero: & Tablero){
     eprint!("{i}");
 
 }
-
-
-// let fy = ficha.y as isize;
-// let fx = ficha.y as isize;
-
-// // let mover
-// let mut ocupado = false;
-
-// //comenzamos en la ultima fila
-// let mut y:isize = 1;
-// 'outer :for filas in ficha.tipo.get(){
-//     let mut x:isize = 1;
-//     for casilla in filas{ 
-//         let val_rango_y = (fy - y) >= 0 && (fy - y)< 20;
-//         let val_rango_x = (fx - x) < 10 && (fx - x) >= 0;
-//         //si parte ficha en rango
-//         if *casilla && val_rango_x && val_rango_y{
-//             //
-//             if tablero.get(y as usize, x as usize) == 1 {
-//                 ocupado = true;
-//                 break 'outer;
-//             }
-//         }
-//         x -=1 ;
-//     }
-//     y -= 1;
-// }

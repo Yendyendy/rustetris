@@ -207,6 +207,10 @@ impl TetrominoGame{
         self.tipo.rotar()
     }  
 
+    pub fn get_tetromino_symbol (&self)-> char{
+        self.tipo.get_tetromino_symbol()
+    }
+
 
 }
 #[derive(Clone)] 
@@ -295,6 +299,18 @@ impl Tetromino{
             } 
         }
     }
+
+    pub fn get_tetromino_symbol(&self) -> char{
+        match self.tipo {
+            TetrominoShape::O => 'O',
+            TetrominoShape::I => 'I',
+            TetrominoShape::S => 'S',
+            TetrominoShape::Z => 'Z',
+            TetrominoShape::T => 'T',
+            TetrominoShape::J => 'J',
+            TetrominoShape::L => 'L'
+        }
+    }
     
 }
 
@@ -315,7 +331,7 @@ pub enum TetrominoShape  {
 
 #[derive(Copy, Clone)]
 pub struct Tablero {
-    pub rows: [[i8; 10]; 20],
+    pub rows: [[char; 10]; 20],
 }
 
 impl Tablero {
@@ -323,17 +339,17 @@ impl Tablero {
     //     Some(*self.rows.get(row)?.get(col)?)
     // }
 
-    pub fn get (&self, row: usize, col: usize) -> i8{
+    pub fn get (&self, row: usize, col: usize) -> char{
         self.rows[row][col]
     }
 
-    pub fn set (&mut self, row: usize, col: usize, val: i8) {
+    pub fn set (&mut self, row: usize, col: usize, val: char) {
         self.rows[row][col] = val;
     }
 
     pub fn new () -> Tablero{
         Tablero{
-            rows: [[0; 10]; 20]
+            rows: [['0'; 10]; 20]
         }
     }
 }
