@@ -81,6 +81,10 @@ fn main() {
             //colocar tetrominó en el tablero
             //generar nueva pool.current() 
             else{ 
+                //si ya no puede poner más terminar juego
+                if pool.current().y == 1{
+                    break;
+                }
                 pool.current().y -=1;
 
                 //si entras aqui quiere decir que has llegado al suelo
