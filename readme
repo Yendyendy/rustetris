@@ -1,47 +1,24 @@
-Falla la lógica al rotar
-Falta lógica de ver si puede rotar o hay que desplazar
-Falla al eliminar filas
-Falla los límites del tablero pared derecha y suelo
-Diferenciar fichas
+#rusTetris v1.0
 
+##Completed tasks
+1. Tetris game written in Rust.
+2. Basic gameplay implemented.
+3. VMC: view-logic-game.
 
+```Cargo run``` to play.
 
-Vamos a aplicar VMC.
+##Ideas for the v2:
+1. Correct syntax, code, OOP(try not access directly to atributes) and structure of TetrominoPool.
+2. Add a more appealing interface.
+3. Improve logic for rotate tetromino, delete rows, when the game end etc.
+4. Add start menu.
+5. Add game score logic.
+6. Add dinamic pool and show the next comming tetromino.
 
-View == display
-Logic == control
-Controller == main;
+##Rust libraries for interface:
+* rataui
+* wgpu
 
-VM === Muestra en terminal el tablero, puntuación, las fichas.
-Logic === Lógica del juego.
-Controller === 
-
-
-View:: defición de tetriminoes
-    :: defición del tablero
-    :: defición de la tabla de puntuación
-
-Logic:: definición turno de un juego
-     :: calcular puntuación
-     :: rotar/mover/saltar - fichas
-     :: comprobar filas / eliminar filas / mover filas
-    
-Controller:: 
-
-loop
-
-definir datos
-{
-    
-Lógica
-    
-
-> evento de teclado
-
-
-Mostrar pantallas
-
-}
-
+Tetris rotatiosn: super rotation system - wall kicis
 
 

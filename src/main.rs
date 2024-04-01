@@ -17,7 +17,7 @@ fn main() {
 
     //crear tablero
     let mut tablero = Tablero::new();
-    //crear ficha
+    //crear tetromino
     let mut pool = TetrominoPool::new();  
 
     //pintar en pantalla
@@ -79,7 +79,7 @@ fn main() {
             }
             //no pude descender
             //colocar tetrominó en el tablero
-            //generar nueva pool.current() 
+            //generar nuevo pool.current() 
             else{ 
                 //si ya no puede poner más terminar juego
                 if pool.current().y == 1{

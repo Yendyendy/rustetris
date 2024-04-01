@@ -4,13 +4,10 @@ use crate::view::{Tablero, TetrominoGame};
 
 pub fn write_alt_screen_msg<W: Write>(screen: &mut W, _tablero: &Tablero, ficha: &TetrominoGame) {
 
-    let mut tablero_aux = _tablero.clone();
-    // write!(screen, "{}{}\n",  termion::clear::All,termion::cursor::Goto(1, 1)).unwrap();
+    let mut tablero_aux = _tablero.clone(); 
     write!(screen, "{}{}\n",  termion::clear::All,termion::cursor::Goto(1, 1)).unwrap();
-
-    // let mut ficha = Ficha::new();
-    let techo = String::from("------------\n\r");
-    // let filaTablero = String::from("|                     | \n");
+ 
+    let techo = String::from("------------\n\r"); 
 
     write!(screen, "rusTetris\n\r").unwrap();
 
@@ -58,8 +55,6 @@ fn usize_add(u: usize, i: isize) -> usize {
     }
 }
 
-
-
 //ver si la ficha puede descender: dentro de las dimensiones del tablero && posición libre 
 //Comprueba que una ficha se pueda mover en esa dirección
 pub fn se_puede_poner(ficha: &TetrominoGame, tablero: & Tablero) -> bool{
@@ -86,8 +81,7 @@ pub fn se_puede_poner(ficha: &TetrominoGame, tablero: & Tablero) -> bool{
                         break 'outer1;
                     }
                 }
-                else{
-                    eprint!("ERROR: fn se_puede_poner() Error al intentar sumar\n"); 
+                else{ 
                     en_rango = false;
                     break 'outer1;
                 }
@@ -110,14 +104,11 @@ pub fn se_puede_poner(ficha: &TetrominoGame, tablero: & Tablero) -> bool{
             x+=1;
         }
         y+=1;
-    } 
-    // eprint!("{en_rango} && {posiciones_libres}\n\r\n\r\n\r");
+    }  
     return en_rango && posiciones_libres;
 }
 
 pub fn poner_tetromino_en_tablero(ficha: &TetrominoGame, tablero: &mut Tablero){
-    // let forma_geo = ficha.tipo as [[bool:3]: 3];
-    
     let fx = ficha.x as isize;
     let fy = ficha.y as isize;
     
@@ -137,41 +128,27 @@ pub fn poner_tetromino_en_tablero(ficha: &TetrominoGame, tablero: &mut Tablero){
     } 
 }
 
-//ideas a futuro: tabla como matriz de bits
 pub fn validar_filas(pos: usize, tablero: &mut Tablero){ 
 
     let rango_sup = pos-1 ;
-    let rango_inf = if pos+1 >= 20 {19} else {pos+1};
-    
-    eprint!("\n>>>>>>>>>{} = {} - {}\n", pos, rango_sup, rango_inf);
-    
-    for y in rango_sup ..= rango_inf{
-        eprint!("\n>>>>>>>>>y{}\n", y);
-        
+    let rango_inf = if pos+1 >= 20 {19} else {pos+1}; 
+    for y in rango_sup ..= rango_inf{ 
         let mut eliminar : bool = true;
-        'inner: for x in 0..10{
-            eprint!("{}-{}: {}",y, x, tablero.get(y, x));
+        'inner: for x in 0..10{ 
 
-            if tablero.get(y, x) == '0'{
-                eprint!("break porque: {}\n", tablero.get(y, x));
-
+            if tablero.get(y, x) == '0'{ 
                 eliminar = false;
                 break 'inner;
             } 
 
-        } 
-
-        eprint!("Eliminar{} {}\n", y, eliminar); 
-        if eliminar {  
-            eprint!("Eliminar{} {}\n", y, eliminar);
-
+        }  
+        if eliminar {   
             eliminar_fila(y, tablero);
         }
     }
 }
 
-fn eliminar_fila(fila: usize, tablero: &mut Tablero){
-    eprint!("eliminar_fila {}\n", fila);
+fn eliminar_fila(fila: usize, tablero: &mut Tablero){ 
 
     if fila == 0 {
         for x in 0..10{ 
@@ -188,8 +165,7 @@ fn eliminar_fila(fila: usize, tablero: &mut Tablero){
 
 pub fn repeler (ficha: &mut TetrominoGame, tablero: & Tablero){
     
-    let mut poner = false;
-    // eprint!("poner {poner}\n");
+    let mut poner = false; 
     let mut i = -1;
     while !poner {
 
@@ -226,7 +202,6 @@ pub fn repeler (ficha: &mut TetrominoGame, tablero: & Tablero){
             ficha.x -=1;
             ficha.y -=1;
         },  
-    };
-    eprint!("{i}");
+    }; 
 
 }

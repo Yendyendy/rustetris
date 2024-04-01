@@ -325,20 +325,12 @@ pub enum TetrominoShape  {
     L
 }
 
-// // //rataui
-// // //wgpu
-// // //tetris rotatiosn: super rotation system - wall kicis
-
 #[derive(Copy, Clone)]
 pub struct Tablero {
     pub rows: [[char; 10]; 20],
 }
 
 impl Tablero {
-    // pub fn get(&self, row: usize, col: usize) -> Option<i8> {
-    //     Some(*self.rows.get(row)?.get(col)?)
-    // }
-
     pub fn get (&self, row: usize, col: usize) -> char{
         self.rows[row][col]
     }
