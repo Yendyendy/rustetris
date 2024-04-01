@@ -70,10 +70,7 @@ fn main() {
             _ => write_alt_screen_msg(&mut screen, &tablero,  &pool.current())
         }
 
-        if Instant::now() - lastsec >= Duration::from_secs(1) {
-            let b = se_puede_poner(&pool.current(), &tablero);
-            eprint!("<<<<<<>{b}\n");
-
+        if Instant::now() - lastsec >= Duration::from_secs(1) { 
             //ver si la pool.current() puede descender: dentro de las dimensiones del tablero && posición libre
             //puede descender desciende y ya
             pool.current().y +=1;
@@ -83,8 +80,7 @@ fn main() {
             //no pude descender
             //colocar tetrominó en el tablero
             //generar nueva pool.current() 
-            else{
-                eprint!(">>Eliminar fila\n");
+            else{ 
                 pool.current().y -=1;
 
                 //si entras aqui quiere decir que has llegado al suelo

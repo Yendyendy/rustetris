@@ -134,28 +134,37 @@ pub fn poner_tetromino_en_tablero(ficha: &TetrominoGame, tablero: &mut Tablero){
             x +=1 ;
         }
         y += 1;
-    }
+    } 
 }
 
 //ideas a futuro: tabla como matriz de bits
 pub fn validar_filas(pos: usize, tablero: &mut Tablero){ 
 
     let rango_sup = pos-1 ;
-    let rango_inf = if pos+1 > 20 {pos+1} else {pos};
+    let rango_inf = if pos+1 >= 20 {19} else {pos+1};
     
-    let mut eliminar : bool = true;
+    eprint!("\n>>>>>>>>>{} = {} - {}\n", pos, rango_sup, rango_inf);
     
     for y in rango_sup ..= rango_inf{
-        eprint!("y{}\n", y);
+        eprint!("\n>>>>>>>>>y{}\n", y);
+        
+        let mut eliminar : bool = true;
+        'inner: for x in 0..10{
+            eprint!("{}-{}: {}",y, x, tablero.get(y, x));
 
-        for x in 0..10{
             if tablero.get(y, x) == '0'{
+                eprint!("break porque: {}\n", tablero.get(y, x));
+
                 eliminar = false;
-                break;
-            }
+                break 'inner;
+            } 
+
         } 
 
+        eprint!("Eliminar{} {}\n", y, eliminar); 
         if eliminar {  
+            eprint!("Eliminar{} {}\n", y, eliminar);
+
             eliminar_fila(y, tablero);
         }
     }
